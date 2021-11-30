@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Django</h1>
+<p>My first paragraph.</p>
+<h1> ชื่อบทความ : {{ name }}</h1>
+<h1> ชื่อผู้เเต่ง : {{ anther }}</h1>
+<h2>ป้ายกำกับ</h2>
+<ul>
+    {% for tag in tags %}
+    <p>{{tag}}</p>
+ {% endfor %}
+</ul>
+
+<h2>rating</h2>
+{% if rating > 3 %}
+
+    <h1>ดีมาก</h1>
+
+{% else %}
+    <h1>ปานกลาง</h1>
+
+{% endif %}
+ 
+</body>
+</html>
