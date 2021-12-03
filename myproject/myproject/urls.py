@@ -27,8 +27,13 @@ urlpatterns = [
     url(r'^homepage/$', views.home2, name='home2'),
      url(r'^hello/$', views.hello, name='hello'),
     url(r'^admin/', admin.site.urls),
+    #url(r'^login/', views.login,name='login'),
+    #url(r'^loginform/', views.loginform,name='loginform'),
     path('page1',views.page1),
     path('createForm',views.createForm),
-    path('addForm',views.addBlog)
+    path('addForm',views.addBlog),
+    #url(r'^login/', views.login,name='login'),
+    path('login',views.login),
+    path('loginform',views.loginform)
     
 ]

@@ -3,10 +3,13 @@ from django.template import loader
 # Create your views here.
 from django.http import HttpResponse
 from .models import Post
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,auth
+from django.contrib import messages
+#from django.contrib.auth import authenticate
 
 def home(request):
     return HttpResponse('Hello, World!')
+
 def hello(request):
         return render(request,'hello.html')
 def page1(request):
@@ -53,6 +56,8 @@ def addBlog2(request):
 
     })
 
+
+#เเสดงข้อมูลหน้าเเรก
 def index(request):
     #Query data
     data=Post.objects.all()
@@ -70,9 +75,14 @@ def addBlog(request):
     
     if password==confirmpassword :
         if User.objects.filter(username=username).exists():
-            print("username นี้มีคนใช้งานเเล้ว")
+            #print("username นี้มีคนใช้งานเเล้ว")
+            messages.info(request,'UserName นี้มีคนใช้เเล้วครับ')
+            return redirect('/createForm')
         elif User.objects.filter(email=email).exists():
-            print("Email นี้เคยลงทะเบียนเเล้ว")
+            #print("Email นี้เคยลงทะเบียนเเล้ว")
+            #return HttpResponse("Email นี้เคยลงทะเบียนเเล้ว") 
+            messages.info(request,'Email นี้เคยลงทะเบียนเเล้ว')
+            return redirect('/createForm')
         else :
             user=User.objects.create_user(
         username=username,
@@ -83,9 +93,32 @@ def addBlog(request):
         )
 
         user.save()
-
-        return render(request,'form.html')
+        return redirect('/createForm')
     
     else :
-        #return redirect('/addForm')
-      return HttpResponse("password มันผิดโว้ยยย!!!!") 
+        messages.info(request,'password มันผิดโว้ยยย!!!!')
+        return redirect('/addForm')
+       
+      #return HttpResponse("") 
+
+
+def loginform(request):
+       return render(request,'login.html')
+def login(request):
+    
+    username=request.POST['username']
+    password=request.POST['password']
+    user=auth.authenticate(username=username, password=password)
+    print(username)
+
+    if user is not None :
+        auth.login(request,user)
+        return redirect('/')
+        
+    else :
+        print(username)
+        messages.info(request,'ไม่พบข้อมูล')
+        return redirect('/loginform')
+    
+    #return render(request,'index.html')
+
